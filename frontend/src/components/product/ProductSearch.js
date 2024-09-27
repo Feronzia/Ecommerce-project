@@ -18,7 +18,7 @@ export default function ProductSearch() {
     const { products, loading, error, productsCount, resPerPage } = useSelector((state) => state.productsState);
     const [currentPage, setCurrentPage] = useState(1);
     const [price, setPrice] = useState([1, 1000]);
-     const [priceChanged, setPriceChanged] = useState([price]);
+    // const [priceChanged, setPriceChanged] = useState([price]);
 
     const { keyword } = useParams();
 
@@ -28,10 +28,10 @@ export default function ProductSearch() {
 
     useEffect(() => {
         if (error) {
-            return toast.error(error);
+             toast.error(error);
         }
-        dispatch(getProducts(keyword, price, currentPage))
-    }, [error, dispatch, currentPage, keyword, priceChanged])
+        dispatch(getProducts(keyword, price, currentPage));
+    }, [error, dispatch, currentPage, keyword, price]);
 
     return (
         <Fragment>
@@ -42,7 +42,7 @@ export default function ProductSearch() {
                     <section id="products" className="container mt-5">
                         <div className="row">
                             <div className="col-6 col-md-3 mb-5 mt-5">
-                                <div className="px-5"  onMouseUp={() => setPriceChanged(price)}>
+                                <div className="px-5" >
                                     <Slider
                                         range={true}
                                         marks={
@@ -54,7 +54,7 @@ export default function ProductSearch() {
                                         min={1}
                                         max={1000}
                                         defaultValue={price}
-                                        onChange={(price) => {
+                                        onAfterChange={(price) => {
                                             setPrice(price)
                                         }}
                                         handleRender={
@@ -63,9 +63,7 @@ export default function ProductSearch() {
                                                     <Tooltip overlay={`$${renderProps.props['aria-valuenow']}`}>
                                                         <div {...renderProps.props}></div>
                                                     </Tooltip>
-                                                )
-
-                                            }
+                                                )}
                                         }
                                     />
 
@@ -74,7 +72,7 @@ export default function ProductSearch() {
                             <div className="col-6 col-md-9">
                                 <div className="row">
                                     {products && products.map(product => (
-                                          <Product col={4} key={product._id} product={product} />
+                                        <Product col={4} key={product._id} product={product} />
                                     ))}
                                 </div>
                             </div>
@@ -99,6 +97,6 @@ export default function ProductSearch() {
                 </Fragment>
             }
         </Fragment>
-    )
+    );
 }
 

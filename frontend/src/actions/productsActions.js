@@ -4,17 +4,17 @@ import { productsFail, productsRequest, productsSuccess } from '../slices/produc
 export const getProducts = (keyword, price, currentPage) => async (dispatch) => {
     try{
         dispatch(productsRequest());
-        let link = `/api/v1/products?page=${currentPage}`;
+        let link = `/api/v1/products?page=${currentPage}`
 
         if(keyword){
             link += `&keyword=${keyword}`
         }
-        if(price){
+        if(price && price.length === 2){
             link += `&price[gte]=${price[0]}&price[lte]=${price[1]}`
         }
 
         const { data } = await axios.get(link);
-        dispatch(productsSuccess(data))
+        dispatch(productsSuccess(data));
 
     }catch(error){
         //handle error
